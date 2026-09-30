@@ -1,0 +1,18 @@
+body {
+    display: block;
+    float: left;
+    width: 20%;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden
+}
+
+#start-svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: normal;
+    width: 15%;
+    min-width: 150px;
+}
