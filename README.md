@@ -38,3 +38,35 @@ Typical workflow:
 2. Run `npm run sync:landing`.
 3. Check it with `npm run dev` at http://localhost:5173.
 4. Commit and push the updated `landing/` folder.
+
+## Hosting and custom domain
+
+The site is served by GitHub Pages from the root of the `main` branch; every
+push to `main` redeploys it. `.nojekyll` tells Pages to serve the files as-is.
+Internal links are relative, so the site works both at
+https://dggrunzweig.github.io/greentwig-site/ and at the root of the custom
+domain.
+
+The domain `greentwig.xyz` is registered with Cloudflare, and its DNS is
+managed there. GitHub Pages needs these records:
+
+| Type  | Name  | Content                 | Proxy status |
+| ----- | ----- | ----------------------- | ------------ |
+| A     | `@`   | `185.199.108.153`       | DNS only     |
+| A     | `@`   | `185.199.109.153`       | DNS only     |
+| A     | `@`   | `185.199.110.153`       | DNS only     |
+| A     | `@`   | `185.199.111.153`       | DNS only     |
+| AAAA  | `@`   | `2606:50c0:8000::153`   | DNS only     |
+| AAAA  | `@`   | `2606:50c0:8001::153`   | DNS only     |
+| AAAA  | `@`   | `2606:50c0:8002::153`   | DNS only     |
+| AAAA  | `@`   | `2606:50c0:8003::153`   | DNS only     |
+| CNAME | `www` | `dggrunzweig.github.io` | DNS only     |
+
+Keep the records "DNS only" (grey cloud). If Cloudflare proxies them, GitHub
+can't verify the domain or issue its HTTPS certificate.
+
+The custom domain itself is set in the repo under Settings → Pages (or with
+`gh api -X PUT repos/dggrunzweig/greentwig-site/pages -f cname=greentwig.xyz`).
+Once GitHub has issued the certificate, turn on **Enforce HTTPS** on that same
+page. Leave the domain's MX and TXT records (email and site verification)
+alone.
