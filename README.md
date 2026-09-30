@@ -48,19 +48,18 @@ https://dggrunzweig.github.io/greentwig-site/ and at the root of the custom
 domain.
 
 The domain `greentwig.xyz` is registered with Cloudflare, and its DNS is
-managed there. GitHub Pages needs these records:
+managed there. Both the root domain and `www` point at GitHub Pages with
+CNAME records:
 
 | Type  | Name  | Content                 | Proxy status |
 | ----- | ----- | ----------------------- | ------------ |
-| A     | `@`   | `185.199.108.153`       | DNS only     |
-| A     | `@`   | `185.199.109.153`       | DNS only     |
-| A     | `@`   | `185.199.110.153`       | DNS only     |
-| A     | `@`   | `185.199.111.153`       | DNS only     |
-| AAAA  | `@`   | `2606:50c0:8000::153`   | DNS only     |
-| AAAA  | `@`   | `2606:50c0:8001::153`   | DNS only     |
-| AAAA  | `@`   | `2606:50c0:8002::153`   | DNS only     |
-| AAAA  | `@`   | `2606:50c0:8003::153`   | DNS only     |
+| CNAME | `@`   | `dggrunzweig.github.io` | DNS only     |
 | CNAME | `www` | `dggrunzweig.github.io` | DNS only     |
+
+A CNAME on the root domain isn't normally allowed, but Cloudflare "flattens"
+it into A/AAAA records automatically, and GitHub Pages supports that. (With a
+DNS provider that can't flatten, use GitHub's A records for `@` instead:
+`185.199.108.153` through `185.199.111.153`.)
 
 Keep the records "DNS only" (grey cloud). If Cloudflare proxies them, GitHub
 can't verify the domain or issue its HTTPS certificate.
